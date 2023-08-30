@@ -1,13 +1,8 @@
 #!/bin/tcsh
 
-# sqlalchemy installd for python 3.11
-# need to load this version (or set it as default? -- check with Ole)
-# > module use /group/halla/modulefiles
-# > module load python
+set DB_HOME=/adaqfs/home/sbs-onl/rcdb
+set RCDB_DIR=$DB_HOME/rcdb
 
-set CURR_DIR=`pwd`
-set RCDB_DIR=${CURR_DIR}/rcdb
-set SBS_DIR=${CURR_DIR}/sbs_rcdb
 
 # RCDB environment
 if ( ! $?RCDB_HOME ) then
@@ -28,7 +23,7 @@ endif
 
 setenv PATH "$RCDB_HOME":"$RCDB_HOME/bin":"$RCDB_HOME/cpp/bin":$PATH
 
-setenv PYTHONPATH "$CURR_DIR":"$RCDB_DIR":$PYTHONPATH
+setenv PYTHONPATH "$DB_HOME":"$RCDB_DIR":$PYTHONPATH
 
 # Connection string
 setenv RCDB_CONNECTION mysql://rcdb@chafs1.jlab.org/rcdb

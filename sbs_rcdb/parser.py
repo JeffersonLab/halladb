@@ -17,6 +17,12 @@ class EpicsParseResult(object):
         self.target = None           # Target 
         self.bb_angle = None         # BB angle 
         self.sbs_angle = None        # SBS angle
+        self.bb_current = None       # BB current set value
+        self.sbs_current = None      # SBS curent set value
+        self.hwien = None            # Horizontal wien angle
+        self.vwien = None            # Vertical wien angle
+        self.helicity_freq = None    # helicity frequency
+        self.flip_state = None       # Spin filpper setting
 
 class CodaParseResult(object):
     def __init__(self):
@@ -33,7 +39,7 @@ def epics_parser(epics_list):
             cmds = ['caget', '-t', epics_name]
             out_str = subprocess.Popen(cmds, stdout=subprocess.PIPE).stdout.read().strip()
             value = out_str.decode('ascii')
-            parse_result[cond_name] = float(value)
+            parse_result[cond_name] = value
         except Exception as ex:
             log.warning("Error: " + str(ex))
             continue

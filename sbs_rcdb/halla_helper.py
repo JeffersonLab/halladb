@@ -41,7 +41,7 @@ def get_epics_avg(run, epics_name, rmin, rmax):
                 continue
             key = tokens[0]
             value = tokens[2]
-            if value = "N/A":
+            if value == "N/A":
                 value = 0
             if key == epics_name:
                 this_value = value
@@ -50,4 +50,32 @@ def get_epics_avg(run, epics_name, rmin, rmax):
                 
     return this_value
 
+def get_SBS_target(enc_pos):
+    # Get target name based on the encoder readout (volts)
+    # Need to set threshold to decide which target we are at
 
+    target_name = ["Initialize",
+                   "Reference Cell",
+                   "No Target",
+                   "Carbon Optics",
+                   "Carbon Hole",
+                   "Carbon Foil",
+                   "Pol.He3",
+                   "Pickup Coil"]
+
+    ref_pos = [10.67,
+               10.92,
+               11.89,
+               13.06,
+               13.44,
+               13.85,
+               14.74,
+               0]
+    
+    bds_close = min(ref_pos, key=lambda x:abs(x-float(enc_pos)))
+    
+    if abs(float(enc_pos) - bds_close) > 15:
+        return "Unknown"
+    else:
+        tar_index = ref_pos.index(bds_close)
+        return target_name[tar_index]

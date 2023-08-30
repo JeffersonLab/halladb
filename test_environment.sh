@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# sqlalchemy installd for python 3.11
-# need to load this version (or set it as default? -- check with Ole)
-# > module use /group/halla/modulefiles
-# > module load python
-
-CURR_DIR=`pwd`
-RCDB_DIR=${CURR_DIR}/rcdb
-SBS_DIR=${CURR_DIR}/sbs_rcdb
+RCDB_DIR=/adaqfs/home/sbs-onl/rcdb/rcdb
+SBS_DIR=/adaqfs/home/sbs-onl/rcdb
 
 # RCDB environment
 if [[ -z $RCDB_HOME ]]; then

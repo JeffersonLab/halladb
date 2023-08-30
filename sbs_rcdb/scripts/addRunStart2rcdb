@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Wrapper script for Hall A RCDB update
+
+SCRIPT_DIR=$HOME/rcdb/sbs_rcdb/scripts
+RunNumberFile=/adaqfs/home/adaq/datafile/rcRunNumber
+RUN_NUM=`cat ${RunNumberFile}`
+
+# check if connection string is set
+if [[ -z "$RCDB_CONNECTION" ]]; then
+   echo "ERROR: DB connnection string is not set"
+else
+    # Just to test the script.. add --test=True
+    python3 ${SCRIPT_DIR}/runstart_rcdb.py --run=${RUN_NUM} --update=epics,coda --reason=start --test=True
+
+    #python3 ${SCRIPT_DIR}/runstart_rcdb.py --run=${RUN_NUM} --update=epics,coda --reason=start
+fi    

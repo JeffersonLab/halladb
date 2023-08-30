@@ -7,6 +7,7 @@ import rcdb
 from rcdb.log_format import BraceMessage as Lf
 from sbs_rcdb import SBSConditions, parser
 from sbs_rcdb.parser import CodaParseResult, EpicsParseResult
+from sbs_rcdb.halla_helper import get_SBS_target
 
 #########################
 # MODIFY HERE
@@ -24,6 +25,12 @@ def get_epics_list():
         #"":SBSConditions.SBS_ANGLE,
         "MSUPERBIGBITE":SBSConditions.SBS_CURRENT,
         "MBIGBITE":SBSConditions.BB_CURRENT,
+        "HaHPE1313ACh1":SBSConditions.TARGET,
+        "PWF1I06:spinCalc":"hwien",
+        "PWF1I04:spinCalc":"vwien",
+        "HELFREQ":"helicity_freq",
+        "HELPATTERNd":"helicity_pattern",
+        "FlipState":"flip_state"
     }
     return epics_list
 
@@ -43,7 +50,6 @@ def main():
     # parse args
     argparser = argparse.ArgumentParser(description=" Update Hall A RCDB", usage=get_usage())
     argparser.add_argument("--run", type=int, help="Run number to update", required=True)
-    #argparser.add_argument("--daq",  help="DAQ session: HMS, SHMS, NPS, COIN", required=True)
     argparser.add_argument("--update", help="Comma separated, modules to update such as coda, epics", default="coda,epics")
     argparser.add_argument("--reason", help="Reason for the update: start, update, end", default="start")
     argparser.add_argument("--exp", help="Experiment name", default="SBS")
@@ -89,9 +95,11 @@ def main():
     if "epics" in update_parts:
         log.debug(Lf("Adding epics info to DB", ))
         epics_result = parser.epics_parser(epics_list)
-
         # add conditions
         for key in epics_result:
+            if "target" in key:
+                tar_enc = epics_result[key]
+                epics_result[key] = get_SBS_target(tar_enc)
             if epics_result[key] is not None:
                 conditions.append((key, epics_result[key]))
                 

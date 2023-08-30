@@ -5,7 +5,6 @@ class SBSConditions(object):
     Default conditions are defined in rcdb
     Below are additional conditions for SBS database
     """
-
     BEAM_ENERGY = "beam_energy"
     BEAM_CURRENT = "beam_current"
     TARGET = "target"
@@ -13,6 +12,7 @@ class SBSConditions(object):
     SBS_ANGLE = "sbs_angle"
     SBS_CURRENT = "sbs_current"
     BB_CURRENT = "bb_current"
+    
 
 def create_condition_types(db):
     
